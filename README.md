@@ -1,5 +1,8 @@
 # GreenPack EPR Service
 
+<img width="1423" height="1717" alt="image" src="https://github.com/user-attachments/assets/68f2cc02-fe67-48b0-80cf-94e48e4402a9" />
+
+
 A production-quality FastAPI service for plastic packaging **Extended Producer Responsibility (EPR)** compliance workflows. The service supports:
 
 - **Declaration submission** — validate and persist quarterly plastic quantity declarations.
