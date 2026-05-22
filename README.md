@@ -1,6 +1,6 @@
 # GreenPack EPR Service
 
-<img width="1423" height="1717" alt="image" src="https://github.com/user-attachments/assets/68f2cc02-fe67-48b0-80cf-94e48e4402a9" />
+<img width="1000" height="1200" alt="image" src="https://github.com/user-attachments/assets/68f2cc02-fe67-48b0-80cf-94e48e4402a9" />
 
 
 A production-quality FastAPI service for plastic packaging **Extended Producer Responsibility (EPR)** compliance workflows. The service supports:
@@ -108,6 +108,9 @@ This project was built using **Antigravity** (an AI-native coding environment) p
 ---
 
 ## 7. RAG Corpus Sources
+
+<img width="900" height="1000" alt="image" src="https://github.com/user-attachments/assets/9badda40-4941-4788-9936-ff8f2273501a" />
+
 
 All four documents in `data/epr_corpus/` are **fabricated mock policy documents** created for demonstration purposes. They are based on publicly available knowledge of the Indian EPR and CPCB regulatory framework:
 
