@@ -13,8 +13,6 @@ The deployed version includes:
 - SQLite storage
 - Groq LLM integration
 - Modern enterprise UI/UX
-<img width="1000" height="1200" alt="image" src="https://github.com/user-attachments/assets/68f2cc02-fe67-48b0-80cf-94e48e4402a9" />
-
 
 A production-quality FastAPI service for plastic packaging **Extended Producer Responsibility (EPR)** compliance workflows. The service supports:
 
@@ -23,6 +21,9 @@ A production-quality FastAPI service for plastic packaging **Extended Producer R
 - **Policy Q&A** — a RAG pipeline over EPR policy documents powered by local embeddings and Llama-3.3-70b.
 
 ---
+<img width="1000" height="1200" alt="image" src="https://github.com/user-attachments/assets/68f2cc02-fe67-48b0-80cf-94e48e4402a9" />
+
+
 
 ## 1. Setup Instructions
 
