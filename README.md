@@ -56,6 +56,8 @@ Once running, open: [http://localhost:8000/docs](http://localhost:8000/docs)
 ---
 
 ## 2. LLM — Groq API · llama-3.3-70b-versatile
+<img width="800" height="1000" alt="image" src="https://github.com/user-attachments/assets/a14e539f-e9b6-4bb8-ba0d-8c77423ce49f" />
+
 
 **Why Groq + Llama 3.3 70B?**  
 `llama-3.3-70b-versatile` running on Groq's LPU (Language Processing Unit) infrastructure was chosen because it is:
