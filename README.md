@@ -56,7 +56,7 @@ Once running, open: [http://localhost:8000/docs](http://localhost:8000/docs)
 ---
 
 ## 2. LLM — Groq API · llama-3.3-70b-versatile
-<img width="800" height="1000" alt="image" src="https://github.com/user-attachments/assets/a14e539f-e9b6-4bb8-ba0d-8c77423ce49f" />
+
 
 
 **Why Groq + Llama 3.3 70B?**  
@@ -99,7 +99,7 @@ SQLite was chosen because:
 
 ## 6. AI Coding Assistant
 
-This project was built using **Antigravity** (an AI-native coding environment) powered by the **Llama-3.3-70b (Groq)** model, used for:
+This project was built using **Antigravity** (an AI-native coding environment) powered by the **claude.ai** model, used for:
 - Generating the full project scaffold including all module boilerplate.
 - Drafting realistic mock EPR policy documents for the RAG corpus.
 - Writing and iterating on Pydantic validation logic for edge cases.
@@ -109,7 +109,7 @@ This project was built using **Antigravity** (an AI-native coding environment) p
 
 ## 7. RAG Corpus Sources
 
-<img width="900" height="1000" alt="image" src="https://github.com/user-attachments/assets/9badda40-4941-4788-9936-ff8f2273501a" />
+
 
 
 All four documents in `data/epr_corpus/` are **fabricated mock policy documents** created for demonstration purposes. They are based on publicly available knowledge of the Indian EPR and CPCB regulatory framework:
@@ -218,6 +218,7 @@ Submit a plastic packaging declaration.
 ```
 
 ### `GET /summary/{producer_id}/{month}`
+<img width="800" height="1000" alt="image" src="https://github.com/user-attachments/assets/a14e539f-e9b6-4bb8-ba0d-8c77423ce49f" />
 
 Get reconciliation summary vs. ERP feed with LLM narrative.
 
@@ -228,6 +229,7 @@ GET /summary/GREENPACK-001/2026-04
 ### `POST /ask`
 
 Ask a compliance question using RAG over the EPR policy corpus.
+<img width="900" height="1000" alt="image" src="https://github.com/user-attachments/assets/9badda40-4941-4788-9936-ff8f2273501a" />
 
 ```json
 {
