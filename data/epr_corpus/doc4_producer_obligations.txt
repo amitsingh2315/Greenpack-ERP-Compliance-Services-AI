@@ -1,0 +1,36 @@
+Producer Obligations under Plastic Waste Management Rules (India)
+==================================================================
+
+This document outlines the specific obligations that producers, importers, and brand owners (PIBOs) must fulfil under the Plastic Waste Management (PWM) Rules, 2016 (as amended by the Plastic Waste Management Amendment Rules, 2022). Compliance with these obligations is a legal requirement and subject to audit by the Central Pollution Control Board (CPCB).
+
+Collection Targets
+-------------------
+Every registered producer must achieve an annual collection target that is proportionate to the volume of plastic packaging introduced into the Indian market during the same financial year. The collection targets are phased as follows:
+
+  - FY 2023–24: Collect and channel 50% (by weight) of plastic packaging introduced.
+  - FY 2024–25: Collect and channel 60%.
+  - FY 2025–26: Collect and channel 70%.
+  - FY 2026–27 onwards: Collect and channel 80% or such higher targets as may be notified.
+
+Collection must be achieved through any one or more of: (a) own collection infrastructure (drop-boxes, reverse vending machines, buy-back centres); (b) engagement with registered waste-pickers or informal sector aggregators; (c) engagement with CPCB-empanelled Producer Responsibility Organisations (PROs).
+
+Buy-Back Obligations
+---------------------
+Producers who opt for the buy-back route must establish a minimum price paid to waste collectors of INR 25 per kilogram for rigid plastics, INR 18 per kilogram for flexible plastics, and INR 12 per kilogram for multi-layer plastics. These minimum floor prices are revised annually by CPCB in consultation with industry bodies.
+
+All buy-back transactions must be documented with receipts issued to the waste-collector and cross-verified against the collector's CPCB registration number. Transactions conducted without proper documentation will not be counted towards EPR targets.
+
+EPR Certificate Obligations
+-----------------------------
+Producers who cannot meet their collection targets through physical collection must purchase EPR certificates from CPCB-approved recyclers via the CPCB marketplace. Key rules for certificate procurement:
+
+  1. Certificates are denomination-specific: one certificate represents one kilogram of plastic collected and processed for the relevant category.
+  2. Certificates purchased in one financial year cannot be carried forward to the next financial year, except where CPCB grants specific exemptions due to force majeure events (e.g., natural disasters, pandemic-related disruptions).
+  3. Certificates must be redeemed on the CPCB portal against the specific quarterly report in which the corresponding collection occurred.
+  4. Producers must retain supporting documents (recycler invoices, certificate IDs, material transfer notes) for a period of five years for audit purposes.
+
+Eco-Modulation Incentives
+---------------------------
+Producers who voluntarily adopt sustainable packaging design — such as reducing plastic content by more than 20%, switching to mono-materials, or achieving recyclability certification from a CPCB-approved lab — are eligible for eco-modulation incentives, which include a 10% reduction in EPR target for the following financial year.
+
+To claim eco-modulation incentives, producers must submit a Packaging Design Declaration along with third-party technical assessment reports by March 31 of the relevant financial year.

@@ -1,0 +1,16 @@
+# Core API
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+pydantic==2.11.5
+
+# LLM
+groq==0.28.0
+
+# RAG / Embeddings
+sentence-transformers==4.1.0
+faiss-cpu==1.10.0
+numpy==2.2.6
+
+# Utilities
+python-dotenv==1.1.0
+httpx==0.28.1

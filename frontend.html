@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenPack EPR Service</title>
+  <meta name="description" content="GreenPack EPR Compliance Dashboard – submit declarations, view reconciliation summaries, and query EPR policy via AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Tokens ───────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F8FAFC;
+      --surface:   #FFFFFF;
+      --border:    #E2E8F0;
+      --border-focus: #CBD5E1;
+      
+      /* Primary Brand */
+      --primary:   #15803d; /* Forest green */
+      --primary-hover: #166534;
+      --accent:    #22C55E; /* Crisp lime green */
+      
+      /* Header Gradient */
+      --header-bg-1: #1E1B4B;
+      --header-bg-2: #312E81;
+      --header-bg-3: #4338CA;
+      
+      --text:      #0F172A; /* Slate 900 */
+      --muted:     #64748B; /* Slate 500 */
+      --subtle:    #94A3B8; /* Slate 400 */
+      
+      --danger-bg: #FEF2F2;
+      --danger-text: #B91C1C;
+      --danger-border: #FCA5A5;
+      
+      --success-bg: #F0FDF4;
+      --success-text: #15803D;
+      --success-border: #86EFAC;
+
+      --ai-bg:     #F8FAFC;
+      --ai-border: #E2E8F0;
+      
+      --radius:    16px;
+      --radius-sm: 8px;
+      --radius-pill: 9999px;
+      
+      --shadow:    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* ── Header ───────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--header-bg-1), var(--header-bg-2), var(--header-bg-3));
+      color: white;
+      padding: 64px 24px 100px;
+      text-align: center;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: var(--bg);
+      border-radius: 40px 40px 0 0;
+    }
+    .logo-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-pill);
+      padding: 6px 16px;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+    header h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    header p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-pill);
+      padding: 6px 16px;
+      font-size: 0.85rem; font-weight: 500;
+    }
+    .dot { 
+      width: 8px; height: 8px; border-radius: 50%; 
+      background: var(--accent); 
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s infinite; 
+    }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* ── Layout ───────────────────────────────────────── */
+    .wrap {
+      max-width: 1000px;
+      margin: -60px auto 80px;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── Nav Tabs ─────────────────────────────────────── */
+    .tabs-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .tabs {
+      display: inline-flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 6px;
+      box-shadow: var(--shadow);
+    }
+    .tab-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 24px;
+      border: none; background: transparent; 
+      color: var(--muted);
+      border-radius: var(--radius-pill); cursor: pointer;
+      font-family: inherit; font-size: 0.95rem; font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      background: var(--bg);
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* ── Panels ───────────────────────────────────────── */
+    .panel { display: none; animation: fadeIn 0.4s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+
+    /* ── Card ─────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-hover); }
+    
+    .card-title {
+      font-size: 1.25rem; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .card-subtitle {
+      font-size: 0.95rem; color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── Form elements ────────────────────────────────── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    label { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+    input, textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: inherit; font-size: 1rem;
+      padding: 12px 16px;
+      outline: none; transition: all 0.2s;
+      width: 100%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1);
+    }
+    input::placeholder, textarea::placeholder { color: var(--subtle); }
+    textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+
+    .kg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    /* ── Buttons ──────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 32px; border: none; border-radius: var(--radius-pill);
+      font-family: inherit; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(21, 128, 61, 0.2);
+    }
+    .btn-primary:hover { 
+      background: var(--primary-hover);
+      transform: translateY(-1px); 
+      box-shadow: 0 6px 16px rgba(21, 128, 61, 0.3); 
+    }
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: #F1F5F9;
+    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+    /* ── Spinner ──────────────────────────────────────── */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading .spinner { display: inline-block; }
+    .loading .btn-text { opacity: 0.8; }
+
+    /* ── Alert boxes ──────────────────────────────────── */
+    .alert {
+      display: none; align-items: flex-start; gap: 12px;
+      padding: 16px; border-radius: var(--radius-sm);
+      font-size: 0.9rem; margin-top: 24px; font-weight: 500;
+    }
+    .alert.show { display: flex; animation: fadeIn 0.3s ease; }
+    .alert-error   { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger-text); }
+    .alert-icon { font-size: 1.2rem; line-height: 1; }
+
+    /* ── Response section ─────────────────────────────── */
+    .response-area { display: none; margin-top: 32px; }
+    .response-area.show { display: block; animation: fadeIn 0.4s ease; }
+
+    /* ── Record Details ───────────────────────────────── */
+    .record-details {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+    }
+    .record-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--border-focus); }
+    .record-row:last-child { border-bottom: none; }
+    .record-key { color: var(--muted); font-weight: 500; font-size: 0.95rem; }
+    .record-val { font-weight: 600; color: var(--text); font-size: 0.95rem; }
+    .record-id-val { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--primary); background: rgba(21, 128, 61, 0.1); padding: 4px 8px; border-radius: 4px; }
+
+    /* ── Reconciliation Stats ─────────────────────────── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px; margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 24px;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .stat-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .stat-value { font-size: 2.25rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+    .stat-sub { font-size: 0.85rem; color: var(--subtle); margin-top: 4px; }
+
+    /* ── Reconciliation Table ─────────────────────────── */
+    .recon-table-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .recon-table { width: 100%; border-collapse: collapse; background: var(--surface); text-align: left; }
+    .recon-table th {
+      background: var(--bg);
+      padding: 16px;
+      font-size: 0.75rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .recon-table td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    .recon-table tr:last-child td { border-bottom: none; }
+    .cat-name { font-weight: 600; color: var(--text); }
+    
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: var(--radius-pill);
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .status-ok { background: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
+    .status-flag { background: var(--danger-bg); color: var(--danger-text); border: 1px solid var(--danger-border); }
+
+    /* ── Enterprise AI Analysis Block ─────────────────── */
+    .ai-analysis-container {
+      background: var(--surface);
+      border: 1px solid var(--ai-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .ai-header {
+      background: linear-gradient(90deg, #F8FAFC, #FFFFFF);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .ai-header-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--header-bg-2);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ai-header-badge {
+      background: #EEF2FF; color: var(--header-bg-3);
+      padding: 4px 10px; border-radius: var(--radius-pill);
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .ai-body { padding: 24px; }
+    
+    .ai-section { margin-bottom: 24px; }
+    .ai-section:last-child { margin-bottom: 0; }
+    .ai-section-title {
+      font-size: 0.8rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+    }
+    .ai-list { list-style: none; padding: 0; margin: 0; }
+    .ai-list li {
+      position: relative; padding-left: 20px; margin-bottom: 8px;
+      font-size: 0.95rem; color: var(--text);
+    }
+    .ai-list li::before {
+      content: '•'; position: absolute; left: 0; color: var(--header-bg-3);
+      font-weight: bold; font-size: 1.2rem; line-height: 1; top: -2px;
+    }
+    .ai-metric-highlight { font-weight: 700; color: var(--text); }
+    .ai-risk-item {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--danger-bg); border: 1px solid var(--danger-border);
+      padding: 12px 16px; border-radius: var(--radius-sm);
+      color: var(--danger-text); font-weight: 600; font-size: 0.95rem;
+    }
+    .ai-action-list li::before { color: var(--primary); }
+    
+    .ai-narrative-text {
+      font-size: 0.95rem; color: var(--text); line-height: 1.7;
+      background: #F8FAFC; padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+    }
+
+    /* ── Chat / RAG Interface ─────────────────────────── */
+    .chat-container {
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .chat-bubble {
+      max-width: 85%; padding: 24px; border-radius: 20px;
+      line-height: 1.7; font-size: 1rem;
+    }
+    .bubble-user {
+      align-self: flex-end;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-bottom-right-radius: 4px;
+      font-weight: 500;
+    }
+    .bubble-ai {
+      align-self: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-bottom-left-radius: 4px;
+      position: relative;
+      width: 100%;
+    }
+    .bubble-ai::before {
+      content: '✨ Groq AI Assistant';
+      display: block; font-size: 0.75rem; font-weight: 700; color: var(--header-bg-3);
+      margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    
+    .ai-answer-content p { margin-bottom: 16px; }
+    .ai-answer-content p:last-child { margin-bottom: 0; }
+    .ai-answer-content strong { color: var(--text); font-weight: 700; }
+    .ai-answer-content ul { padding-left: 20px; margin-bottom: 16px; }
+    .ai-answer-content li { margin-bottom: 8px; }
+
+    .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .suggestion-btn {
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+      border-radius: var(--radius-pill); padding: 8px 16px; font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .suggestion-btn:hover { background: var(--surface); color: var(--text); border-color: var(--border-focus); }
+
+    /* ── Citations Accordion ──────────────────────────── */
+    .citations-wrapper {
+      margin-top: 24px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+    .citations-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 0.85rem; font-weight: 600; color: var(--muted);
+      padding: 0;
+    }
+    .citations-toggle:hover { color: var(--text); }
+    .citations-toggle svg { transition: transform 0.3s; }
+    .citations-toggle.open svg { transform: rotate(180deg); }
+    
+    .citations-content {
+      display: none; margin-top: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+    .citations-content.show { display: block; }
+    
+    .citation-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;
+    }
+    .citation-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 16px;
+    }
+    .citation-ref-badge {
+      display: inline-block; background: #EEF2FF; color: var(--header-bg-3);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700;
+      padding: 4px 8px; border-radius: 4px; margin-bottom: 8px;
+    }
+    .citation-doc { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .citation-excerpt { font-size: 0.85rem; color: var(--muted); font-style: italic; line-height: 1.5; }
+
+    /* ── JSON Toggle ──────────────────────────────────── */
+    .json-toggle-wrap { display: flex; justify-content: flex-end; margin-top: 16px; }
+    .json-block {
+      display: none; margin-top: 16px;
+      background: #0F172A; border-radius: var(--radius-sm); padding: 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+      color: #38BDF8; line-height: 1.5;
+      overflow-x: auto; max-height: 400px; overflow-y: auto;
+    }
+    .json-block.show { display: block; animation: fadeIn 0.3s ease; }
+
+    /* ── Method Badge ─────────────────────────────────── */
+    .endpoint-info {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;
+    }
+    .method-pill {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px;
+      color: var(--muted);
+    }
+    .method-post span { color: var(--primary); }
+    .method-get span { color: var(--header-bg-3); }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .kg-grid { grid-template-columns: 1fr; }
+      .card { padding: 24px; }
+      header { padding: 48px 20px 80px; }
+      .ai-header { padding: 12px 16px; }
+      .ai-body { padding: 16px; }
+      .chat-bubble { max-width: 95%; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-badge"><span>🍃</span> Compliance Hub</div>
+    <h1>GreenPack EPR Service</h1>
+    <p>Enterprise-grade plastic packaging compliance. Manage declarations, reconcile ERP data, and query policy with AI.</p>
+    <div class="status-pill"><div class="dot"></div> System Online &bull; <span id="api-host-label">connecting...</span></div>
+  </header>
+
+  <div class="wrap">
+    
+    <!-- Nav Tabs -->
+    <div class="tabs-container">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" onclick="switchTab('submit',this)" role="tab">
+          Submit Declaration
+        </button>
+        <button class="tab-btn" onclick="switchTab('summary',this)" role="tab">
+          Reconciliation
+        </button>
+        <button class="tab-btn" onclick="switchTab('ask',this)" role="tab">
+          Policy AI
+        </button>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────
+         PANEL 1 · POST /submit
+    ────────────────────────────────────────────────── -->
+    <div class="panel active" id="panel-submit">
+      <div class="card">
+        <div class="endpoint-info">
+          <div>
+            <h2 class="card-title">Producer Declaration</h2>
+            <p class="card-subtitle">File your quarterly plastic packaging quantities.</p>
+          </div>
+          <div class="method-pill method-post"><span>POST</span> /submit</div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="s-producer">Producer ID</label>
+            <input id="s-producer" type="text" value="GREENPACK-001" placeholder="e.g. GREENPACK-001" />
+          </div>
+          <div class="form-group">
+            <label for="s-month">Reporting Month</label>
+            <input id="s-month" type="text" value="2026-04" placeholder="YYYY-MM" />
+          </div>
+        </div>
+
+        <label style="display:block; margin: 24px 0 12px;">Declared Quantities (kg)</label>
+        <div class="kg-grid" style="margin-bottom:32px;">
+          <div class="form-group">
+            <input id="s-rigid" type="number" value="12000" min="0.01" step="any" placeholder="Rigid" />
+            <span style="font-size:0.75rem; color:var(--muted); text-align:center;">Rigid Plastic</span>
+          </div>
+          <div class="form-group">
+            <input id="s-flexible" type="number" value="8500" min="0.01" step="any" placeholder="Flexible" />
+            <span style="font-size:0.75rem; color:var(--muted); text-align:center;">Flexible Plastic</span>
+          </div>
+          <div class="form-group">
+            <input id="s-multilayer" type="number" value="3200" min="0.01" step="any" placeholder="Multilayer" />
+            <span style="font-size:0.75rem; color:var(--muted); text-align:center;">Multilayer Plastic</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btn-submit" onclick="doSubmit()">
+          <div class="spinner" id="spin-submit"></div>
+          <span class="btn-text">Submit Declaration to Registry</span>
+        </button>
+
+        <div class="alert alert-error" id="alert-submit-err">
+          <span class="alert-icon">⚠️</span>
+          <span id="alert-submit-err-msg"></span>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="response-area" id="res-submit">
+        <div class="card" style="border-top: 4px solid var(--accent);">
+          <h2 class="card-title">Submission Successful</h2>
+          <p class="card-subtitle">Your declaration has been securely recorded.</p>
+          
+          <div class="record-details" id="submit-details"></div>
+          
+          <div class="json-toggle-wrap">
+            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="toggleJson('json-submit')">{ } Developer Payload</button>
+          </div>
+          <div class="json-block" id="json-submit"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────
+         PANEL 2 · GET /summary
+    ────────────────────────────────────────────────── -->
+    <div class="panel" id="panel-summary">
+      <div class="card">
+        <div class="endpoint-info">
+          <div>
+            <h2 class="card-title">Reconciliation Engine</h2>
+            <p class="card-subtitle">Cross-reference declarations against ERP procurement feeds.</p>
+          </div>
+          <div class="method-pill method-get"><span>GET</span> /summary</div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="q-producer">Producer ID</label>
+            <input id="q-producer" type="text" value="GREENPACK-001" placeholder="e.g. GREENPACK-001" />
+          </div>
+          <div class="form-group">
+            <label for="q-month">Target Month</label>
+            <input id="q-month" type="text" value="2026-04" placeholder="YYYY-MM" />
+          </div>
+        </div>
+        <button class="btn btn-primary" id="btn-summary" onclick="doSummary()">
+          <div class="spinner" id="spin-summary"></div>
+          <span class="btn-text">Run Reconciliation</span>
+        </button>
+        <div class="alert alert-error" id="alert-summary-err">
+          <span class="alert-icon">⚠️</span>
+          <span id="alert-summary-err-msg"></span>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="response-area" id="res-summary">
+        <div class="card">
+          <h2 class="card-title" style="margin-bottom: 24px;">Reconciliation Report</h2>
+          
+          <!-- Stats Grid -->
+          <div class="stats-grid" id="summary-stats"></div>
+
+          <!-- Table -->
+          <div class="recon-table-wrap">
+            <table class="recon-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Declared Data</th>
+                  <th>ERP Procured</th>
+                  <th>Variance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recon-body"></tbody>
+            </table>
+          </div>
+
+          <!-- Enterprise AI Analysis Block -->
+          <div class="ai-analysis-container" id="ai-analysis-block">
+            <!-- Populated via JS -->
+          </div>
+
+          <div class="json-toggle-wrap">
+            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="toggleJson('json-summary')">{ } Developer Payload</button>
+          </div>
+          <div class="json-block" id="json-summary"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────
+         PANEL 3 · POST /ask
+    ────────────────────────────────────────────────── -->
+    <div class="panel" id="panel-ask">
+      <div class="card">
+        <div class="endpoint-info">
+          <div>
+            <h2 class="card-title">Policy Copilot</h2>
+            <p class="card-subtitle">Ask questions backed by the official EPR regulatory corpus.</p>
+          </div>
+          <div class="method-pill method-post"><span>POST</span> /ask</div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <textarea id="ask-q" rows="2" placeholder="Ask about registration, targets, penalties...">What are the EPR registration requirements?</textarea>
+        </div>
+
+        <div class="suggestions">
+          <button class="suggestion-btn" onclick="setQuestion('What is EPR for plastic producers?')">What is EPR?</button>
+          <button class="suggestion-btn" onclick="setQuestion('What are the penalties for non-compliance with EPR rules?')">Penalties</button>
+          <button class="suggestion-btn" onclick="setQuestion('What are the quarterly reporting deadlines?')">Reporting deadlines</button>
+        </div>
+
+        <div style="margin-top: 32px;">
+          <button class="btn btn-primary" id="btn-ask" onclick="doAsk()">
+            <div class="spinner" id="spin-ask"></div>
+            <span class="btn-text">Generate Answer</span>
+          </button>
+        </div>
+
+        <div class="alert alert-error" id="alert-ask-err">
+          <span class="alert-icon">⚠️</span>
+          <span id="alert-ask-err-msg"></span>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="response-area" id="res-ask">
+        <div class="chat-container">
+          <!-- User Bubble -->
+          <div class="chat-bubble bubble-user" id="ask-question-echo"></div>
+          
+          <!-- AI Bubble -->
+          <div class="chat-bubble bubble-ai">
+            <div class="ai-answer-content" id="ask-answer"></div>
+            
+            <div class="citations-wrapper">
+              <button class="citations-toggle" onclick="toggleCitations()" id="cit-toggle-btn">
+                <span>View Sources Consulted (<span id="cit-count">0</span>)</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="citations-content" id="citations-content">
+                <div class="citation-cards" id="citations-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="json-toggle-wrap">
+          <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="toggleJson('json-ask')">{ } Developer Payload</button>
+        </div>
+        <div class="json-block" id="json-ask"></div>
+      </div>
+    </div>
+
+  </div><!-- /wrap -->
+
+  <script>
+    // Dynamic base URL:
+    // • When served from Render (https://yourapp.onrender.com/), the frontend
+    //   and API share the same origin — use '' (empty string = same origin).
+    // • When opened as a local file (file://...) fall back to localhost:8000.
+    const BASE = (window.location.protocol === 'file:')
+      ? 'http://localhost:8000'
+      : window.location.origin;
+
+    // Update the status pill label
+    document.getElementById('api-host-label').textContent =
+      (window.location.protocol === 'file:') ? 'localhost:8000' : window.location.host;
+
+
+    /* ── Tab switching ─────────────────────────────────── */
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + name).classList.add('active');
+    }
+
+    /* ── Utility ───────────────────────────────────────── */
+    function fmt(n) { return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2}); }
+
+    function setLoading(btnId, spinId, on) {
+      const btn = document.getElementById(btnId);
+      const spin = document.getElementById(spinId);
+      btn.disabled = on;
+      spin.style.display = on ? 'inline-block' : 'none';
+      if (on) btn.classList.add('loading'); else btn.classList.remove('loading');
+    }
+
+    function showError(alertId, msgId, msg) {
+      document.getElementById(alertId).classList.add('show');
+      document.getElementById(msgId).textContent = msg;
+    }
+    function hideError(alertId) {
+      document.getElementById(alertId).classList.remove('show');
+    }
+
+    function toggleJson(id) {
+      document.getElementById(id).classList.toggle('show');
+    }
+
+    function setQuestion(q) {
+      document.getElementById('ask-q').value = q;
+    }
+    
+    function toggleCitations() {
+      const btn = document.getElementById('cit-toggle-btn');
+      const content = document.getElementById('citations-content');
+      btn.classList.toggle('open');
+      content.classList.toggle('show');
+    }
+
+    /* ── POST /submit ──────────────────────────────────── */
+    async function doSubmit() {
+      hideError('alert-submit-err');
+      const producer_id = document.getElementById('s-producer').value.trim();
+      const month       = document.getElementById('s-month').value.trim();
+      const rigid       = parseFloat(document.getElementById('s-rigid').value);
+      const flexible    = parseFloat(document.getElementById('s-flexible').value);
+      const multilayer  = parseFloat(document.getElementById('s-multilayer').value);
+
+      setLoading('btn-submit', 'spin-submit', true);
+      try {
+        const resp = await fetch(`${BASE}/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            producer_id,
+            month,
+            declared_quantities_kg: {
+              rigid_plastic: rigid,
+              flexible_plastic: flexible,
+              multilayer_plastic: multilayer
+            }
+          })
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          const msg = data?.detail?.[0]?.msg || data?.detail || JSON.stringify(data);
+          showError('alert-submit-err', 'alert-submit-err-msg', `Error ${resp.status}: ${msg}`);
+        } else {
+          renderSubmitResult(data);
+        }
+      } catch(e) {
+        showError('alert-submit-err', 'alert-submit-err-msg', 'Could not reach server at localhost:8000.');
+      } finally {
+        setLoading('btn-submit', 'spin-submit', false);
+      }
+    }
+
+    function renderSubmitResult(d) {
+      const el = document.getElementById('submit-details');
+      const date = new Date(d.created_at).toLocaleString();
+      el.innerHTML = `
+        <div class="record-row">
+          <span class="record-key">Record ID</span>
+          <span class="record-id-val">${d.record_id}</span>
+        </div>
+        <div class="record-row">
+          <span class="record-key">Producer</span>
+          <span class="record-val">${d.producer_id}</span>
+        </div>
+        <div class="record-row">
+          <span class="record-key">Reporting Month</span>
+          <span class="record-val">${d.month}</span>
+        </div>
+        <div class="record-row">
+          <span class="record-key">Total Volume</span>
+          <span class="record-val">${fmt(d.declared_quantities_kg.rigid_plastic + d.declared_quantities_kg.flexible_plastic + d.declared_quantities_kg.multilayer_plastic)} kg</span>
+        </div>
+        <div class="record-row">
+          <span class="record-key">Timestamp</span>
+          <span class="record-val" style="color:var(--muted);">${date}</span>
+        </div>
+      `;
+      document.getElementById('json-submit').textContent = JSON.stringify(d, null, 2);
+      document.getElementById('res-submit').classList.add('show');
+    }
+
+    /* ── GET /summary ──────────────────────────────────── */
+    async function doSummary() {
+      hideError('alert-summary-err');
+      const pid   = document.getElementById('q-producer').value.trim();
+      const month = document.getElementById('q-month').value.trim();
+
+      setLoading('btn-summary', 'spin-summary', true);
+      try {
+        const resp = await fetch(`${BASE}/summary/${encodeURIComponent(pid)}/${encodeURIComponent(month)}`);
+        const data = await resp.json();
+        if (!resp.ok) {
+          const msg = data?.detail || JSON.stringify(data);
+          showError('alert-summary-err', 'alert-summary-err-msg', `Error ${resp.status}: ${msg}`);
+        } else {
+          renderSummary(data);
+        }
+      } catch(e) {
+        showError('alert-summary-err', 'alert-summary-err-msg', 'Could not reach server at localhost:8000.');
+      } finally {
+        setLoading('btn-summary', 'spin-summary', false);
+      }
+    }
+
+    function renderSummary(d) {
+      // Stats
+      const totalDeclared = d.reconciliation.reduce((s, r) => s + r.declared_kg, 0);
+      const totalProcured = d.reconciliation.reduce((s, r) => s + r.procured_kg, 0);
+      const diff = totalDeclared - totalProcured;
+      const pct = totalProcured > 0 ? (diff / totalProcured) * 100 : 0;
+      const flags = d.flagged_categories.length;
+      
+      document.getElementById('summary-stats').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">Total Declared</div>
+          <div class="stat-value">${fmt(totalDeclared)}</div>
+          <div class="stat-sub">kilograms</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Procured</div>
+          <div class="stat-value">${fmt(totalProcured)}</div>
+          <div class="stat-sub">kilograms</div>
+        </div>
+        <div class="stat-card" style="border-color: ${flags > 0 ? 'var(--danger-border)' : 'var(--success-border)'}; background: ${flags > 0 ? '#FEF2F2' : '#F0FDF4'};">
+          <div class="stat-label" style="color: ${flags > 0 ? 'var(--danger-text)' : 'var(--success-text)'}">Compliance Status</div>
+          <div class="stat-value" style="color: ${flags > 0 ? 'var(--danger-text)' : 'var(--success-text)'}">${flags > 0 ? flags + ' Flags' : 'Clear'}</div>
+          <div class="stat-sub" style="color: ${flags > 0 ? 'var(--danger-text)' : 'var(--success-text)'}">${Math.abs(pct).toFixed(1)}% net variance</div>
+        </div>
+      `;
+
+      // Table
+      const tbody = document.getElementById('recon-body');
+      tbody.innerHTML = d.reconciliation.map(r => {
+        const diffSign = r.difference_kg > 0 ? '+' : '';
+        const badge = r.flagged
+          ? `<span class="status-badge status-flag">Review Req</span>`
+          : `<span class="status-badge status-ok">Verified</span>`;
+          
+        return `
+          <tr>
+            <td class="cat-name">${r.category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</td>
+            <td>${fmt(r.declared_kg)} kg</td>
+            <td>${fmt(r.procured_kg)} kg</td>
+            <td style="color:${r.flagged ? 'var(--danger-text)' : 'inherit'};">
+              ${diffSign}${fmt(r.difference_kg)} kg <span style="font-size:0.8rem; color:var(--muted); margin-left:4px;">(${r.difference_pct.toFixed(1)}%)</span>
+            </td>
+            <td>${badge}</td>
+          </tr>`;
+      }).join('');
+
+      // Build Enterprise AI Analysis Block
+      let riskHtml = '';
+      let findingsHtml = '';
+      
+      if (flags > 0) {
+        riskHtml = `
+          <div class="ai-section">
+            <div class="ai-section-title">Risk Level</div>
+            <div class="ai-risk-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              Potential reporting mismatch above 5% threshold
+            </div>
+          </div>
+        `;
+        
+        let flagList = d.reconciliation.filter(r => r.flagged).map(r => `
+          <li>
+            <span class="ai-metric-highlight">${r.category.replace(/_/g, ' ')}</span> variance: <span class="ai-metric-highlight">${r.difference_pct.toFixed(2)}%</span><br/>
+            <span style="font-size: 0.85rem; color: var(--muted);">Declared: ${fmt(r.declared_kg)}kg &bull; Procured: ${fmt(r.procured_kg)}kg &bull; Diff: ${fmt(r.difference_kg)}kg</span>
+          </li>
+        `).join('');
+        
+        findingsHtml = `
+          <div class="ai-section">
+            <div class="ai-section-title">Key Findings</div>
+            <ul class="ai-list">
+              ${flagList}
+            </ul>
+          </div>
+        `;
+      } else {
+        findingsHtml = `
+          <div class="ai-section">
+            <div class="ai-section-title">Key Findings</div>
+            <ul class="ai-list">
+              <li>All categories are within acceptable 5% variance thresholds.</li>
+              <li>Declaration accurately matches ERP procurement feed.</li>
+            </ul>
+          </div>
+        `;
+      }
+      
+      // Process narrative for recommended action if available
+      const narrativeContent = d.narrative || 'Analysis completed successfully.';
+      
+      const analysisHtml = `
+        <div class="ai-header">
+          <div class="ai-header-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+            Groq AI Analysis
+          </div>
+          <div class="ai-header-badge">Confidence: High</div>
+        </div>
+        <div class="ai-body">
+          <div class="ai-section">
+            <div class="ai-section-title">Summary</div>
+            <ul class="ai-list">
+              <li>Monthly reconciliation completed for ${d.month}</li>
+              <li>${flags} categor${flags === 1 ? 'y' : 'ies'} flagged for review</li>
+            </ul>
+          </div>
+          
+          ${findingsHtml}
+          ${riskHtml}
+          
+          <div class="ai-section">
+            <div class="ai-section-title">Recommended Action & Synthesis</div>
+            <div class="ai-narrative-text">
+              ${narrativeContent}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('ai-analysis-block').innerHTML = analysisHtml;
+
+      // Raw JSON
+      document.getElementById('json-summary').textContent = JSON.stringify(d, null, 2);
+      document.getElementById('res-summary').classList.add('show');
+    }
+
+    /* ── POST /ask ─────────────────────────────────────── */
+    async function doAsk() {
+      hideError('alert-ask-err');
+      const question = document.getElementById('ask-q').value.trim();
+      if (!question) {
+        showError('alert-ask-err', 'alert-ask-err-msg', 'Please enter a question.');
+        return;
+      }
+
+      setLoading('btn-ask', 'spin-ask', true);
+      document.getElementById('res-ask').classList.remove('show');
+      
+      // reset citations
+      document.getElementById('citations-content').classList.remove('show');
+      document.getElementById('cit-toggle-btn').classList.remove('open');
+      
+      try {
+        const resp = await fetch(`${BASE}/ask`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          const msg = data?.detail || JSON.stringify(data);
+          showError('alert-ask-err', 'alert-ask-err-msg', `Error ${resp.status}: ${msg}`);
+        } else {
+          renderAsk(data);
+        }
+      } catch(e) {
+        showError('alert-ask-err', 'alert-ask-err-msg', 'Could not reach server at localhost:8000.');
+      } finally {
+        setLoading('btn-ask', 'spin-ask', false);
+      }
+    }
+
+    function renderAsk(d) {
+      document.getElementById('ask-question-echo').textContent = d.question;
+      
+      // Parse markdown-like content nicely
+      let formattedAnswer = d.answer
+        // basic bold
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // split into paragraphs
+        .split('\n')
+        .map(p => p.trim())
+        .filter(p => p.length > 0)
+        .map(p => {
+          if (p.startsWith('* ') || p.startsWith('- ')) {
+            return `<li>${p.substring(2)}</li>`;
+          }
+          return `<p>${p}</p>`;
+        })
+        .join('');
+        
+      // wrap consecutive lis in uls
+      formattedAnswer = formattedAnswer.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>').replace(/<\/ul><ul>/g, '');
+        
+      document.getElementById('ask-answer').innerHTML = formattedAnswer;
+
+      // Update citations
+      document.getElementById('cit-count').textContent = d.citations.length;
+      
+      const citEl = document.getElementById('citations-list');
+      citEl.innerHTML = d.citations.map((c, i) => `
+        <div class="citation-card">
+          <div class="citation-ref-badge">Reference [${i+1}]</div>
+          <div class="citation-doc">📄 ${c.document.replace('.txt', '').replace(/_/g, ' ')}</div>
+          <div class="citation-excerpt">"${c.excerpt.trim()}..."</div>
+        </div>`).join('');
+
+      document.getElementById('json-ask').textContent = JSON.stringify(d, null, 2);
+      document.getElementById('res-ask').classList.add('show');
+    }
+  </script>
+</body>
+</html>

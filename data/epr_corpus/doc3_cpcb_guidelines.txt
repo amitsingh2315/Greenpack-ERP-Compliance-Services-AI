@@ -1,0 +1,39 @@
+CPCB Guidelines on EPR Compliance for Plastic Packaging
+=========================================================
+
+The Central Pollution Control Board (CPCB) is the apex regulatory body for EPR implementation in India. These guidelines describe the CPCB portal registration process, quarterly reporting obligations, and penalties for non-compliance.
+
+CPCB EPR Portal Registration
+------------------------------
+The CPCB EPR portal is accessible at https://eprplastic.cpcb.gov.in. All producers, importers, and brand owners (PIBOs) must complete the following steps to obtain EPR registration:
+
+Step 1 — Account Creation: Create a user account on the portal using a valid business email address and mobile number. OTP-based verification is mandatory.
+
+Step 2 — Entity Details: Enter business registration details including CIN/LLP number, GST number, registered office address, and contact person information.
+
+Step 3 — Declaration of Plastic Footprint: Declare the total quantity of plastic packaging introduced in the Indian market in the previous financial year, categorised by plastic type (rigid, flexible, multilayer, compostable).
+
+Step 4 — EPR Plan Submission: Submit a forward-looking EPR action plan detailing how the producer intends to meet collection and recycling targets for the current financial year. The plan must identify at least one empanelled recycler or PRO (Producer Responsibility Organisation).
+
+Step 5 — Document Upload: Upload self-attested copies of the Certificate of Incorporation, GST registration certificate, audited financial statements (latest year), and any existing recycling/collection agreements.
+
+Quarterly Reporting Requirements
+----------------------------------
+Producers must file quarterly compliance reports by the 15th of the month following each quarter:
+  - Q1 (April–June): Report due by July 15
+  - Q2 (July–September): Report due by October 15
+  - Q3 (October–December): Report due by January 15
+  - Q4 (January–March): Report due by April 15
+
+Each quarterly report must specify: (a) quantity of plastic packaging introduced during the quarter by category, (b) quantity collected and recycled or reused during the quarter, (c) EPR certificates purchased during the quarter with certificate IDs, and (d) any carry-forward credits from previous quarters.
+
+Penalty Framework
+------------------
+Non-compliance with EPR obligations attracts the following penalties under the Environment (Protection) Act, 1986:
+
+  - Late registration: INR 25,000 per quarter of delay.
+  - Late quarterly report submission: INR 10,000 per quarter.
+  - Shortfall in EPR targets: INR 50 per kilogram of shortfall, subject to a minimum of INR 1 lakh per financial year.
+  - Misuse of EPR certificates (e.g., using invalid or duplicate certificates): INR 5 lakh per instance plus criminal prosecution.
+
+CPCB reserves the right to conduct surprise physical audits of collection and recycling infrastructure. Producers selected for audit must cooperate and provide access within 72 hours of notice.

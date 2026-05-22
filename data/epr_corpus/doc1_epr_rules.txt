@@ -1,0 +1,31 @@
+EPR Rules for Plastic Producers (India)
+========================================
+
+Extended Producer Responsibility (EPR) is a policy approach under which producers are given significant responsibility — financial and/or physical — for the treatment or disposal of post-consumer products. In India, EPR for plastic packaging is mandated under the Plastic Waste Management (PWM) Rules, 2016, as amended in 2022.
+
+Who Must Register?
+------------------
+Any producer, importer, or brand owner (PIBO) that introduces plastic packaging into the Indian market with an annual turnover exceeding INR 1 crore must register on the Central Pollution Control Board (CPCB) EPR portal. This includes manufacturers of rigid plastics, flexible films, multi-layer packaging, and compostable packaging materials.
+
+Registration must be completed before the commencement of each financial year. New entrants must register within 90 days of starting operations.
+
+Collection and Recycling Targets
+---------------------------------
+Producers are required to meet phased EPR targets as follows:
+  - FY 2023-24: 50% of plastic packaging introduced must be collected and recycled or reused.
+  - FY 2024-25: 60% collection and recycling target.
+  - FY 2025-26: 70% collection and recycling target.
+  - FY 2026-27 and beyond: 80% or as notified by CPCB.
+
+Targets apply separately for each plastic category: rigid, flexible, multilayer, and compostable.
+
+Reporting Deadlines
+--------------------
+Quarterly EPR compliance reports must be submitted to the CPCB portal by the 15th of the month following each quarter. Annual consolidated reports are due by June 30 of the following financial year.
+
+Failure to submit reports on time attracts a late fee of INR 10,000 per quarter. Persistent non-compliance may result in cancellation of EPR registration and prohibition from introducing plastic packaging into the market.
+
+Producers may fulfil their EPR obligations by:
+  (a) setting up their own collection and recycling infrastructure;
+  (b) engaging registered recyclers or waste management entities; or
+  (c) purchasing EPR certificates from registered recyclers via the CPCB marketplace.

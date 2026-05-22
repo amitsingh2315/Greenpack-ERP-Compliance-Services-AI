@@ -1,0 +1,32 @@
+Plastic Categories under EPR (India)
+======================================
+
+The Plastic Waste Management Rules, 2016 (amended 2022) classify plastic packaging into four broad categories for EPR accounting purposes. Each category has distinct properties, common use-cases, and specific EPR obligations.
+
+Category 1: Rigid Plastic Packaging
+--------------------------------------
+Rigid plastic packaging refers to containers, bottles, jars, tubs, trays, and clamshells made from hard thermoplastic materials such as PET (polyethylene terephthalate), HDPE (high-density polyethylene), PP (polypropylene), and PVC (polyvinyl chloride). These materials retain their shape under normal conditions of use.
+
+Weight threshold: Individual items weighing more than 5 grams are classified as rigid plastic for EPR reporting. Rigid plastics are generally easier to collect and recycle due to their consistent composition and higher market value.
+
+EPR certificate denomination: 1 EPR certificate = 1 kilogram of rigid plastic collected and processed.
+
+Category 2: Flexible Plastic Packaging
+-----------------------------------------
+Flexible plastic packaging includes films, pouches, sachets, wraps, and bags made from materials such as LDPE (low-density polyethylene), LLDPE (linear low-density polyethylene), and BOPP (biaxially oriented polypropylene). These materials can be bent or twisted without breaking.
+
+Flexible plastics are the fastest-growing plastic waste stream in India and are harder to collect due to their low weight and tendency to disperse in the environment. The EPR targets for flexible plastics are identical to rigid plastics on a weight basis.
+
+EPR certificate denomination: 1 EPR certificate = 1 kilogram of flexible plastic collected and processed.
+
+Category 3: Multi-Layer Plastic (MLP) Packaging
+--------------------------------------------------
+Multi-layer plastic packaging consists of two or more layers of different types of plastic materials laminated or co-extruded together. Common examples include chip packets, instant noodle wrappers, and aseptic cartons. MLPs are extremely difficult to recycle because separating the layers is economically unviable with current technology.
+
+Under the PWM Rules 2022, producers using MLP are required to phase out non-recyclable MLP by 2028 and replace it with mono-material or compostable alternatives. EPR obligations for MLP are calculated at 1.25x the weight of the plastic introduced, reflecting the higher environmental burden.
+
+Category 4: Compostable Plastic Packaging
+-------------------------------------------
+Compostable plastic packaging is made from bio-based materials that meet IS 17088:2008 (equivalent to EN 13432) standards. Producers using certified compostable plastics can claim a 50% rebate on their EPR target for that category.
+
+All compostable claims must be substantiated with third-party certification issued by a CPCB-approved laboratory. Misrepresenting conventional plastic as compostable attracts penalties of INR 5 lakh per instance.

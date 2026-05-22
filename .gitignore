@@ -1,0 +1,5 @@
+.env
+greenpack.db
+__pycache__/
+*.pyc
+.DS_Store
