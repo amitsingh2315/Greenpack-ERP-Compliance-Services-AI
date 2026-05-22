@@ -8,7 +8,7 @@ groq==0.28.0
 
 # RAG / Embeddings
 sentence-transformers==4.1.0
-faiss-cpu==1.10.0
+faiss-cpu
 numpy==2.2.6
 
 # Utilities
