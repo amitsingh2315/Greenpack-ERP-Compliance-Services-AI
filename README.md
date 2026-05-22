@@ -1,5 +1,18 @@
 # GreenPack EPR Service
+# 🌐 Live Demo
 
+The GreenPack EPR Compliance Service is fully deployed and live in production.  
+You can access and test the live application here:
+
+👉 https://greenpack-erp-compliance-services-ai-1-pn8x.onrender.com/
+
+The deployed version includes:
+- FastAPI backend
+- AI-powered RAG policy Q&A
+- Reconciliation analysis
+- SQLite storage
+- Groq LLM integration
+- Modern enterprise UI/UX
 <img width="1000" height="1200" alt="image" src="https://github.com/user-attachments/assets/68f2cc02-fe67-48b0-80cf-94e48e4402a9" />
 
 
